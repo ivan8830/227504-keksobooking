@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Иван Генеральчик](https://up.htmlacademy.ru/javascript/10/user/227504).
-* Наставник: `Неизвестно`.
+* Наставник: [Вячеслав Ульянич](https://up.htmlacademy.ru/javascript/10/user/158443).
 
 ---
 

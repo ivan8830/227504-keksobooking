@@ -1,8 +1,8 @@
-var users = [User1, User2, User3, User4, User5, User6, User7, User8];
+/*var users = [User1, User2, User3, User4, User5, User6, User7, User8];
 
 User1 = {
   'author': {
-    'avatar': url=img/avatars/user01.png
+    'avatar': img/avatars/user01.png
   },
   'offer': {
     'title': 'Большая уютная квартира',
@@ -14,7 +14,7 @@ User1 = {
     'checkin': '12:00',
     'checkout': '12:00',
     'features':['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
-    'description':,
+    'description':'',
     'photos': [],
   },
   'location': {
@@ -25,7 +25,7 @@ User1 = {
 
 User2 = {
   'author': {
-    'avatar': url=img/avatars/user02.png,
+    'avatar': img/avatars/user02.png,
   },
   'offer': {
     'title': 'Маленькая неуютная квартира',
@@ -37,7 +37,7 @@ User2 = {
     'checkin': '13:00',
     'checkout': '12:00',
     'features':['washer', 'elevator', 'conditioner'],
-    'description':,
+    'description':'',
     'photos': [],
   },
   'location': {
@@ -48,7 +48,7 @@ User2 = {
 
 User3 = {
   'author': {
-    'avatar': url=img/avatars/user03.png,
+    'avatar': img/avatars/user03.png,
   },
   'offer': {
     'title': 'Маленький ужасный дворец',
@@ -60,7 +60,7 @@ User3 = {
     'checkin': '13:00',
     'checkout': '12:00',
     'features':['parking', 'washer', 'conditioner'],
-    'description':,
+    'description':'',
     'photos': [],
   }
   'location': {
@@ -71,7 +71,7 @@ User3 = {
 
 User4 = {
   'author': {
-    'avatar': url=img/avatars/user04.png,
+    'avatar': img/avatars/user04.png,
   },
   'offer': {
     'title': 'Огромный прекрасный дворец',
@@ -83,7 +83,7 @@ User4 = {
     'checkin': '13:00',
     'checkout': '12:00',
     'features':['parking', 'washer', 'conditioner'],
-    'description':,
+    'description':'',
     'photos': [],
   }
   'location': {
@@ -94,7 +94,7 @@ User4 = {
 
 User5 = {
   'author': {
-    'avatar': url=img/avatars/user05.png,
+    'avatar': img/avatars/user05.png,
   },
   'offer': {
     'title': 'Красивый гостевой домик',
@@ -106,7 +106,7 @@ User5 = {
     'checkin': '13:00',
     'checkout': '12:00',
     'features':['wifi', 'dishwasher', 'parking', 'washer', 'conditioner'],
-    'description':,
+    'description':'',
     'photos': [],
   }
   'location': {
@@ -117,7 +117,7 @@ User5 = {
 
 User6 = {
   'author': {
-    'avatar': url=img/avatars/user06.png,
+    'avatar': img/avatars/user06.png,
   },
   'offer': {
     'title': 'Некрасивый гостевой домик',
@@ -129,7 +129,7 @@ User6 = {
     'checkin': '13:00',
     'checkout': '12:00',
     'features':['wifi', 'parking'],
-    'description':,
+    'description':'',
     'photos': [],
   }
   'location': {
@@ -140,7 +140,7 @@ User6 = {
 
 User7 = {
   'author': {
-    'avatar': url=img/avatars/user07.png,
+    'avatar': img/avatars/user07.png,
   },
   'offer': {
     'title': 'Уютное бунгало далеко от моря',
@@ -152,7 +152,7 @@ User7 = {
     'checkin': '13:00',
     'checkout': '12:00',
     'features':['wifi', 'parking', 'conditioner'],
-    'description':,
+    'description':'',
     'photos': [],
   }
   'location': {
@@ -163,7 +163,7 @@ User7 = {
 
 User8 = {
   'author': {
-    'avatar': url=img/avatars/user08.png,
+    'avatar': img/avatars/user08.png,
   },
   'offer': {
     'title': 'Неуютное бунгало по колено в воде',
@@ -175,23 +175,90 @@ User8 = {
     'checkin': '13:00',
     'checkout': '12:00',
     'features':['wifi', 'parking', 'conditioner'],
-    'description':,
+    'description':'',
     'photos': [],
   }
   'location': {
     'x': 790,
     'y': 588,
   },
+};*/
+
+var vatar = ["img/avatars/user01.png", "img/avatars/user02.png", "img/avatars/user03.png", "img/avatars/user04.png", "img/avatars/user05.png", "img/avatars/user06.png", "img/avatars/user07.png", "img/avatars/user08.png"];
+var itle = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
+var heckin = ["12:00", "12:00", "12:00", "13:00", "13:00", "14:00", "14:00"];
+var heckout = ["12:00", "12:00", "12:00", "13:00", "13:00", "14:00", "14:00"];
+
+function myRandom (from, to) {
+  return Math.floor((Math.random() * (to - from + 1))+from);
 };
 
+//начинаем заполнять массив
+var users = [];
+for (var i = 0; i < 8; i++) {
+  var avatar = vatar[i]; //Math.floor(Math.random() * (vatar.lenght)); с этим не хочет почему то работать.
+  var title =  itle[i]; //Math.floor(Math.random() * itle.lenght);
+  var checkin = heckin[i]; //Math.floor(Math.random() * heckin.lenght);
+  var checkout = heckout[i]; //Math.floor(Math.random() * heckout.lenght);
+//vatar.splice(avatar, 1);
+//itle.splice(title, 1);
+  var features;
+  if (title== "Большая уютная квартира" || title== "Огромный прекрасный дворец" || title== "Красивый гостевой домик") {
+    features = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"]}
+  else if (title== "Маленькая неуютная квартира" || title== "Маленький ужасный дворец" || 														title== "Некрасивый негостеприимный домик") {
+    features= [ "parking", "conditioner"]
+  } else if (title== "Уютное бунгало далеко от моря") {
+    features = ["wifi", "dishwasher", "parking", "washer", "conditioner"]
+  } else {
+    features = ["parking", "washer"]
+  };
+  var type;
+  if (title=== "Большая уютная квартира" || title=== "Маленькая неуютная квартира") {
+    type= "flat"
+  } else if (title=== "Огромный прекрасный дворец"|| title=== "Маленький ужасный дворец" || title=== "Красивый гостевой домик" || title=== "Некрасивый негостеприимный домик"){
+    type= "house"
+  } else {
+    type= "bungalo"
+  };
+  //создаем объект
+  var User = {
+    author: {
+      avatar: avatar
+    },
+    offer: {
+      title: title,
+      address: "location.x location.y",
+      price: myRandom (1000, 1000000),
+      type: type,
+      rooms: myRandom (1, 5),
+      quests: myRandom (2, 15),
+      checkin: checkin,
+      checkout: checkout,
+      features: features,
+      description: "",
+      photos: [],
+    },
+    location: {
+      x: myRandom(300, 900),
+      y: myRandom(100, 500)
+    },
+  }
+  users.push(User);
+}
+
 var tokyo = document.querySelector('.tokyo__pin-map');
+var fragment = document.createDocumentFragment();
+for (var i = 0; i < 8; i++) {
+  var newElement = document.createElement('div', [style='left: {{location.x}}px; top: {{location.y}}px;']);
+  newElement.className = 'pin';
+  newElement.innerHTML = '<img src="{{author.avatar}}" class="rounded"width="40" height="40">';
 
-var secondElementHTML = '<div class='pin' style='left: 330px; top: 380px;'><img src="img/avatars/user01.png" class="rounded"' +
-'width="40" height="40"></div>';
+  fragment.appendChild(newElement);
+}
 
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
+tokyo.appendChild(fragment);
 
-var tokyo = document.querySelector('.tokyo__pin-map');
+/*var tokyo = document.querySelector('.tokyo__pin-map');
 
 var secondElementHTML = '<div class='pin' style='left: 450px; top: 450px;'><img src="img/avatars/user02.png" class="rounded"' +
 'width="40" height="40"></div>';
@@ -238,4 +305,5 @@ var tokyo = document.querySelector('.tokyo__pin-map');
 var secondElementHTML = '<div class='pin' style='left: 790px; top: 588px;'><img src="img/avatars/user08.png" class="rounded"' +
 'width="40" height="40"></div>';
 
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
+tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);*/
+

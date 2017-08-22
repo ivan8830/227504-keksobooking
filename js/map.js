@@ -244,12 +244,14 @@ for (var i = 0; i < 8; i++) {
 
 var tokyo = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
-for (var j = 0; j < 8; i++) {
-  var newElement = document.createElement('div', ['style=left: users[j].location[x]px; top: users[j].location[y]px;']);
+for (var j = 0; j < 8; j++) {
+  var newElement = document.createElement('div');
   newElement.className = 'pin';
-  newElement.innerHTML = '<img src=users[j].author[avatar] class=rounded width=40 height=40>';
-
+  newElement.style.left = 'users[j].location[x]px';
+  newElement.style.top = 'users[j].location[y]px';
+  newElement.innerHTML = '<img src="users[j].author[avatar]" class="rounded" width="40" height="40">';
   fragment.appendChild(newElement);
 }
+
 
 tokyo.appendChild(fragment);

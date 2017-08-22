@@ -1,4 +1,5 @@
-/*var users = [User1, User2, User3, User4, User5, User6, User7, User8];
+
+/* var users = [User1, User2, User3, User4, User5, User6, User7, User8];
 
 User1 = {
   'author': {
@@ -183,127 +184,72 @@ User8 = {
     'y': 588,
   },
 };*/
+var ava = ['img/avatars/user01.png', 'img/avatars/user02.png', 'img/avatars/user03.png', 'img/avatars/user04.png', 'img/avatars/user05.png', 'img/avatars/user06.png', 'img/avatars/user07.png', 'img/avatars/user08.png'];
+var comfort = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
+var entry = ['12:00', '12:00', '12:00', '13:00', '13:00', '14:00', '14:00'];
+var departure = ['12:00', '12:00', '12:00', '13:00', '13:00', '14:00', '14:00'];
 
-var vatar = ["img/avatars/user01.png", "img/avatars/user02.png", "img/avatars/user03.png", "img/avatars/user04.png", "img/avatars/user05.png", "img/avatars/user06.png", "img/avatars/user07.png", "img/avatars/user08.png"];
-var itle = ["Большая уютная квартира", "Маленькая неуютная квартира", "Огромный прекрасный дворец", "Маленький ужасный дворец", "Красивый гостевой домик", "Некрасивый негостеприимный домик", "Уютное бунгало далеко от моря", "Неуютное бунгало по колено в воде"];
-var heckin = ["12:00", "12:00", "12:00", "13:00", "13:00", "14:00", "14:00"];
-var heckout = ["12:00", "12:00", "12:00", "13:00", "13:00", "14:00", "14:00"];
+function myRandom(from, to) {
+  return Math.floor((Math.random() * (to - from + 1)) + from);
+}
 
-function myRandom (from, to) {
-  return Math.floor((Math.random() * (to - from + 1))+from);
-};
-
-//начинаем заполнять массив
 var users = [];
 for (var i = 0; i < 8; i++) {
-  var avatar = vatar[i]; //Math.floor(Math.random() * (vatar.lenght)); с этим не хочет почему то работать.
-  var title =  itle[i]; //Math.floor(Math.random() * itle.lenght);
-  var checkin = heckin[i]; //Math.floor(Math.random() * heckin.lenght);
-  var checkout = heckout[i]; //Math.floor(Math.random() * heckout.lenght);
-//vatar.splice(avatar, 1);
-//itle.splice(title, 1);
+  var avatar = ava[i];
+  var title = comfort[i];
+  var checkin = entry[i];
+  var checkout = departure[i];
   var features;
-  if (title== "Большая уютная квартира" || title== "Огромный прекрасный дворец" || title== "Красивый гостевой домик") {
-    features = ["wifi", "dishwasher", "parking", "washer", "elevator", "conditioner"]}
-  else if (title== "Маленькая неуютная квартира" || title== "Маленький ужасный дворец" || 														title== "Некрасивый негостеприимный домик") {
-    features= [ "parking", "conditioner"]
-  } else if (title== "Уютное бунгало далеко от моря") {
-    features = ["wifi", "dishwasher", "parking", "washer", "conditioner"]
+  if (title === 'Большая уютная квартира' || title === 'Огромный прекрасный дворец' || title === 'Красивый гостевой домик') {
+    features = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
+  } else if (title === 'Маленькая неуютная квартира' || title === 'Маленький ужасный дворец' || title === 'Некрасивый негостеприимный домик') {
+    features = ['parking', 'conditioner'];
+  } else if (title === 'Уютное бунгало далеко от моря') {
+    features = ['wifi', 'dishwasher', 'parking', 'washer', 'conditioner'];
   } else {
-    features = ["parking", "washer"]
-  };
+    features = ['parking', 'washer'];
+  }
   var type;
-  if (title=== "Большая уютная квартира" || title=== "Маленькая неуютная квартира") {
-    type= "flat"
-  } else if (title=== "Огромный прекрасный дворец"|| title=== "Маленький ужасный дворец" || title=== "Красивый гостевой домик" || title=== "Некрасивый негостеприимный домик"){
-    type= "house"
+  if (title === 'Большая уютная квартира' || title === 'Маленькая неуютная квартира') {
+    type = 'flat';
+  } else if (title === 'Огромный прекрасный дворец' || title === 'Маленький ужасный дворец' || title === 'Красивый гостевой домик' || title === 'Некрасивый негостеприимный домик') {
+    type = 'house';
   } else {
-    type= "bungalo"
-  };
-  //создаем объект
+    type = 'bungalo';
+  }
   var User = {
     author: {
       avatar: avatar
     },
     offer: {
       title: title,
-      address: "location.x location.y",
-      price: myRandom (1000, 1000000),
+      address: 'users[i].location[x], users[i].location[y]',
+      price: myRandom(1000, 1000000),
       type: type,
-      rooms: myRandom (1, 5),
-      quests: myRandom (2, 15),
+      rooms: myRandom(1, 5),
+      quests: myRandom(2, 15),
       checkin: checkin,
       checkout: checkout,
       features: features,
-      description: "",
-      photos: [],
+      description: '',
+      photos: []
     },
     location: {
       x: myRandom(300, 900),
       y: myRandom(100, 500)
-    },
-  }
+    }
+  };
   users.push(User);
 }
 
 var tokyo = document.querySelector('.tokyo__pin-map');
 var fragment = document.createDocumentFragment();
-for (var i = 0; i < 8; i++) {
-  var newElement = document.createElement('div', [style='left: {{location.x}}px; top: {{location.y}}px;']);
+for (var j = 0; j < 8; i++) {
+  var newElement = document.createElement('div', ['style=left: users[j].location[x]px; top: users[j].location[y]px;']);
   newElement.className = 'pin';
-  newElement.innerHTML = '<img src="{{author.avatar}}" class="rounded"width="40" height="40">';
+  newElement.innerHTML = '<img src=users[j].author[avatar] class=rounded width=40 height=40>';
 
   fragment.appendChild(newElement);
 }
 
 tokyo.appendChild(fragment);
-
-/*var tokyo = document.querySelector('.tokyo__pin-map');
-
-var secondElementHTML = '<div class='pin' style='left: 450px; top: 450px;'><img src="img/avatars/user02.png" class="rounded"' +
-'width="40" height="40"></div>';
-
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
-
-var tokyo = document.querySelector('.tokyo__pin-map');
-
-var secondElementHTML = '<div class='pin' style='left: 540px; top: 270px;'><img src="img/avatars/user03.png" class="rounded"' +
-'width="40" height="40"></div>';
-
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
-
-var tokyo = document.querySelector('.tokyo__pin-map');
-
-var secondElementHTML = '<div class='pin' style='left: 500px; top: 150px;'><img src="img/avatars/user04.png" class="rounded"' +
-'width="40" height="40"></div>';
-
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
-
-var tokyo = document.querySelector('.tokyo__pin-map');
-
-var secondElementHTML = '<div class='pin' style='left: 800px; top: 200px;'><img src="img/avatars/user05.png" class="rounded"' +
-'width="40" height="40"></div>';
-
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
-
-var tokyo = document.querySelector('.tokyo__pin-map');
-
-var secondElementHTML = '<div class='pin' style='left: 650px; top: 495px;'><img src="img/avatars/user06.png" class="rounded"' +
-'width="40" height="40"></div>';
-
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
-
-var tokyo = document.querySelector('.tokyo__pin-map');
-
-var secondElementHTML = '<div class='pin' style='left: 590px; top: 188px;'><img src="img/avatars/user07.png" class="rounded"' +
-'width="40" height="40"></div>';
-
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);
-
-var tokyo = document.querySelector('.tokyo__pin-map');
-
-var secondElementHTML = '<div class='pin' style='left: 790px; top: 588px;'><img src="img/avatars/user08.png" class="rounded"' +
-'width="40" height="40"></div>';
-
-tokyo.insertAdjacentHTML('beforeend', secondElementsHTML);*/
-

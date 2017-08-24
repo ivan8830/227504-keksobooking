@@ -97,7 +97,7 @@ var userTitle = getDocument('.lodge__address');
 var newTitle = users[1].offer.title;
 userTitle.textContent = newTitle;
 
-var userAddress = getDocument('.lodge__address');
+var userAddress = getDocument('.lodge__title');
 var newAddress = users[1].offer.address;
 userAddress.textContent = newAddress;
 

@@ -33,6 +33,13 @@ function getRandomArr(c) {
   return f;
 }
 
+function getElement(f) {
+  return document.querySelector(f);
+}
+
+function renderPins() {
+  return document.createDocumentFragment();
+}
 
 var users = [];
 for (var i = 0; i < USERS_AMOUNT; i++) {
@@ -71,16 +78,6 @@ for (var i = 0; i < USERS_AMOUNT; i++) {
   users.push(User);
 }
 
-function getElement(f) {
-  return document.querySelector(f);
-}
-
-function renderPins() {
-  return document.createDocumentFragment();
-}
-
-function
-
 var tokyo = getElement('.tokyo__pin-map');
 var fragment = renderPins();
 for (var j = 0; j < USERS_AMOUNT; j++) {
@@ -92,7 +89,6 @@ for (var j = 0; j < USERS_AMOUNT; j++) {
   fragment.appendChild(newElement);
 }
 tokyo.appendChild(fragment);
-
 
 var newPanel = getElement('.dialog__panel');
 var template = getElement('#lodge-template').content.querySelector('.dialog__panel');

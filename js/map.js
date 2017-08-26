@@ -1,5 +1,5 @@
 'use strict';
-var USERS = 8;
+var USERS_AMOUNT = 8;
 var MIN_X_COORDINATE = 300;
 var MAX_X_COORDINATE = 900;
 var MIN_Y_COORDINATE = 100;
@@ -10,8 +10,8 @@ var ROOMS_MIN = 1;
 var ROOMS_MAX = 5;
 var GUESTS_MIN = 2;
 var GUESTS_MAX = 15;
-var WIDTH = 40;
-var HEIGHT = 40;
+var PIN_WIDTH = 40;
+var PIN_HEIGHT = 40;
 var avatars = ['01', '02', '03', '04', '05', '06', '07', '08'];
 var offerTitles = ['Большая уютная квартира', 'Маленькая неуютная квартира', 'Огромный прекрасный дворец', 'Маленький ужасный дворец', 'Красивый гостевой домик', 'Некрасивый негостеприимный домик', 'Уютное бунгало далеко от моря', 'Неуютное бунгало по колено в воде'];
 var featuresArr = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
@@ -35,7 +35,7 @@ function getRandomArr(c) {
 
 
 var users = [];
-for (var i = 0; i < USERS; i++) {
+for (var i = 0; i < USERS_AMOUNT; i++) {
   var avatar = getRandomValue(avatars);
   var title = getRandomValue(offerTitles);
   var checkin = getRandomValue(entry);
@@ -71,41 +71,46 @@ for (var i = 0; i < USERS; i++) {
   users.push(User);
 }
 
-function getDocument(f) {
+function getElement(f) {
   return document.querySelector(f);
 }
 
-var tokyo = getDocument('.tokyo__pin-map');
-var fragment = document.createDocumentFragment();
-for (var j = 0; j < USERS; j++) {
+function renderPins() {
+  return document.createDocumentFragment();
+}
+
+function
+
+var tokyo = getElement('.tokyo__pin-map');
+var fragment = renderPins();
+for (var j = 0; j < USERS_AMOUNT; j++) {
   var newElement = document.createElement('div');
   newElement.className = 'pin';
-  newElement.style.left = users[j].location.x - WIDTH / 2 + 'px';
-  newElement.style.top = users[j].location.y - HEIGHT + 'px';
-  newElement.innerHTML = '<img src="' + users[j].author.avatar + '" class="rounded" width="' + WIDTH + '" height="' + HEIGHT + '">';
+  newElement.style.left = users[j].location.x - PIN_WIDTH / 2 + 'px';
+  newElement.style.top = users[j].location.y - PIN_HEIGHT + 'px';
+  newElement.innerHTML = '<img src="' + users[j].author.avatar + '" class="rounded" width="' + PIN_WIDTH + '" height="' + PIN_HEIGHT + '">';
   fragment.appendChild(newElement);
 }
 tokyo.appendChild(fragment);
 
 
-var newPanel = getDocument('.dialog__panel');
-var template = getDocument('#lodge-template').content.querySelector('.dialog__panel');
+var newPanel = getElement('.dialog__panel');
+var template = getElement('#lodge-template').content.querySelector('.dialog__panel');
 var element = template.cloneNode(true);
-newPanel.appendChild(element);
 
-var userTitle = getDocument('.lodge__title');
+var userTitle = getElement('.lodge__title');
 var newTitle = users[1].offer.title;
 userTitle.textContent = newTitle;
 
-var userAddress = getDocument('.lodge__address');
+var userAddress = getElement('.lodge__address');
 var newAddress = users[1].offer.address;
 userAddress.textContent = newAddress;
 
-var userPrice = getDocument('.lodge__price');
+var userPrice = getElement('.lodge__price');
 var newPrice = users[1].offer.price + '&#x20bd;/ночь';
 userPrice.textContent = newPrice;
 
-var userType = getDocument('.lodge__type');
+var userType = getElement('.lodge__type');
 var newType;
 if (users[1].offer.type === 'flat') {
   newType = 'Квартира';
@@ -116,17 +121,17 @@ if (users[1].offer.type === 'flat') {
 }
 userType.textContent = newType;
 
-var userRoomsGuests = getDocument('.lodge__rooms-and-guests');
+var userRoomsGuests = getElement('.lodge__rooms-and-guests');
 var newRoomsGuests = 'Для ' + users[1].offer.guests + ' гостей в ' + users[1].offer.rooms + ' комнатах';
 userRoomsGuests.textContent = newRoomsGuests;
 
-var userCheckInOut = getDocument('.lodge__checkin-time');
+var userCheckInOut = getElement('.lodge__checkin-time');
 var newCheckInOut = 'Заезд после ' + users[1].offer.checkin + ', выезд до ' + users[1].offer.checkout;
 userCheckInOut.textContent = newCheckInOut;
 
-var userFeatures = getDocument('.lodge__features');
+var userFeatures = getElement('.lodge__features');
 var newFeatures = users[1].offer.features;
-var fragmentFeatures = document.createDocumentFragment();
+var fragmentFeatures = renderPins();
 for (var k = 0; k < newFeatures.length; k++) {
   var newElementFeatures = document.createElement('span');
   newElementFeatures.className = '.feature__image feature__image--' + newFeatures[i];
@@ -134,9 +139,11 @@ for (var k = 0; k < newFeatures.length; k++) {
 }
 userFeatures.appendChild(fragmentFeatures);
 
-var userDescription = getDocument('.lodge__description');
+var userDescription = getElement('.lodge__description');
 var newDescription = users[1].offer.description;
 userDescription.textContent = newDescription;
 
-var userAvatar = getDocument('.dialog__title');
-userAvatar.innerHTML = '<img src="' + users[1].author.avatar + '" alt="Avatar" width="' + 70 + '" height="' + 70 + '">';
+var userAvatar = getElement('.dialog__title > img');
+userAvatar.setAttribute('src', users[1].author.avatar);
+
+newPanel.appendChild(element);

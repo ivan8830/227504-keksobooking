@@ -29,8 +29,8 @@ function getRandomValue(n) {
 
 function getRandomArr(c) {
   var b = getRandomValue(c);
-  var f = c.slice(-b);
-  return f;
+  var p = c.slice(-b);
+  return p;
 }
 
 function getElement(f) {
@@ -38,7 +38,70 @@ function getElement(f) {
 }
 
 function renderPins() {
-  return document.createDocumentFragment();
+  var fragmentPins = document.createDocumentFragment();
+  for (var j = 0; j < USERS_AMOUNT; j++) {
+    var newElement = document.createElement('div');
+    newElement.className = 'pin';
+    newElement.style.left = users[j].location.x - PIN_WIDTH / 2 + 'px';
+    newElement.style.top = users[j].location.y - PIN_HEIGHT + 'px';
+    newElement.innerHTML = '<img src="' + users[j].author.avatar + '" class="rounded" width="' + PIN_WIDTH + '" height="' + PIN_HEIGHT + '">';
+    fragmentPins.appendChild(newElement);
+  }
+  return fragmentPins;
+}
+
+function renderFeatures(l) {
+  var fragmentFeatures = document.createDocumentFragment();
+  for (var k = 0; k < l.length; k++) {
+    var newElementFeatures = document.createElement('span');
+    newElementFeatures.className = '.feature__image feature__image--' + l[i];
+    fragmentFeatures.appendChild(newElementFeatures);
+  }
+  return fragmentFeatures;
+}
+
+function renderDialogPanel() {
+  var userTitle = getElement('.lodge__title');
+  var newTitle = users[1].offer.title;
+  userTitle.textContent = newTitle;
+
+  var userAddress = getElement('.lodge__address');
+  var newAddress = users[1].offer.address;
+  userAddress.textContent = newAddress;
+
+  var userPrice = getElement('.lodge__price');
+  var newPrice = users[1].offer.price + '&#x20bd' + '/ночь';
+  userPrice.textContent = newPrice;
+
+  var userType = getElement('.lodge__type');
+  var newType;
+  if (users[1].offer.type === 'flat') {
+    newType = 'Квартира';
+  } else if (users[1].offer.type === 'house') {
+    newType = 'Дом';
+  } else {
+    newType = 'Бунгало';
+  }
+  userType.textContent = newType;
+
+  var userRoomsGuests = getElement('.lodge__rooms-and-guests');
+  var newRoomsGuests = 'Для ' + users[1].offer.guests + ' гостей в ' + users[1].offer.rooms + ' комнатах';
+  userRoomsGuests.textContent = newRoomsGuests;
+
+  var userCheckInOut = getElement('.lodge__checkin-time');
+  var newCheckInOut = 'Заезд после ' + users[1].offer.checkin + ', выезд до ' + users[1].offer.checkout;
+  userCheckInOut.textContent = newCheckInOut;
+
+  var userFeatures = getElement('.lodge__features');
+  var newFeatures = users[1].offer.features;
+  userFeatures.appendChild(renderFeatures(newFeatures));
+
+  var userDescription = getElement('.lodge__description');
+  var newDescription = users[1].offer.description;
+  userDescription.textContent = newDescription;
+
+  var userAvatar = getElement('.dialog__title > img');
+  userAvatar.setAttribute('src', users[1].author.avatar);
 }
 
 var users = [];
@@ -79,67 +142,9 @@ for (var i = 0; i < USERS_AMOUNT; i++) {
 }
 
 var tokyo = getElement('.tokyo__pin-map');
-var fragment = renderPins();
-for (var j = 0; j < USERS_AMOUNT; j++) {
-  var newElement = document.createElement('div');
-  newElement.className = 'pin';
-  newElement.style.left = users[j].location.x - PIN_WIDTH / 2 + 'px';
-  newElement.style.top = users[j].location.y - PIN_HEIGHT + 'px';
-  newElement.innerHTML = '<img src="' + users[j].author.avatar + '" class="rounded" width="' + PIN_WIDTH + '" height="' + PIN_HEIGHT + '">';
-  fragment.appendChild(newElement);
-}
-tokyo.appendChild(fragment);
+tokyo.appendChild(renderPins());
 
 var newPanel = getElement('.dialog__panel');
 var template = getElement('#lodge-template').content.querySelector('.dialog__panel');
 var element = template.cloneNode(true);
-
-var userTitle = getElement('.lodge__title');
-var newTitle = users[1].offer.title;
-userTitle.textContent = newTitle;
-
-var userAddress = getElement('.lodge__address');
-var newAddress = users[1].offer.address;
-userAddress.textContent = newAddress;
-
-var userPrice = getElement('.lodge__price');
-var newPrice = users[1].offer.price + '&#x20bd;/ночь';
-userPrice.textContent = newPrice;
-
-var userType = getElement('.lodge__type');
-var newType;
-if (users[1].offer.type === 'flat') {
-  newType = 'Квартира';
-} else if (users[1].offer.type === 'house') {
-  newType = 'Дом';
-} else {
-  newType = 'Бунгало';
-}
-userType.textContent = newType;
-
-var userRoomsGuests = getElement('.lodge__rooms-and-guests');
-var newRoomsGuests = 'Для ' + users[1].offer.guests + ' гостей в ' + users[1].offer.rooms + ' комнатах';
-userRoomsGuests.textContent = newRoomsGuests;
-
-var userCheckInOut = getElement('.lodge__checkin-time');
-var newCheckInOut = 'Заезд после ' + users[1].offer.checkin + ', выезд до ' + users[1].offer.checkout;
-userCheckInOut.textContent = newCheckInOut;
-
-var userFeatures = getElement('.lodge__features');
-var newFeatures = users[1].offer.features;
-var fragmentFeatures = renderPins();
-for (var k = 0; k < newFeatures.length; k++) {
-  var newElementFeatures = document.createElement('span');
-  newElementFeatures.className = '.feature__image feature__image--' + newFeatures[i];
-  fragmentFeatures.appendChild(newElementFeatures);
-}
-userFeatures.appendChild(fragmentFeatures);
-
-var userDescription = getElement('.lodge__description');
-var newDescription = users[1].offer.description;
-userDescription.textContent = newDescription;
-
-var userAvatar = getElement('.dialog__title > img');
-userAvatar.setAttribute('src', users[1].author.avatar);
-
-newPanel.appendChild(element);
+newPanel.appendChild(renderDialogPanel(element));

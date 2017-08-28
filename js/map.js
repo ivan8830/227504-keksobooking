@@ -148,3 +148,38 @@ var newPanel = getElement('.dialog__panel');
 var template = getElement('#lodge-template').content.querySelector('.dialog__panel');
 var element = template.cloneNode(true);
 newPanel.appendChild(renderDialogPanel(element));
+
+var pinElements = getElement('.pin');
+var pinOpen = getElement('.dialog');
+var pinClose = getElement('.dialog__close');
+
+var pinCloseKeydownHandler = function(evt) {
+  if (evt.keyCode === 27) {
+    pinElements.classList.remove('pin--active');
+  }
+};
+
+var pinOpenKeydownHandler = function(evt) {
+  if (evt.keyCode === 13) {
+    pinElements.classList.add('pin--active');
+  }
+};
+
+var pinCloseClickHandler = function() {
+  pinElements.classList.remove('pin--active');
+};
+var pinOpenClickHandler = function() {
+  if (pinElements) {
+    pinElements.classList.remove('pin--active');
+  }
+  document.addEventListener('keydown', pinCloseKeydownHandler);
+
+    pinElements.classList.add('pin--active');
+};
+
+
+
+pinOpen.addEventListener('click', pinOpenClickHandler);
+pinClose.addEventListener('click', pinCloseClickHandler);
+setupOpen.addEventListener('keydown', pinOpenKeydownHandler);
+

@@ -44,6 +44,7 @@ function renderPins() {
     newElement.className = 'pin';
     newElement.style.left = users[j].location.x - PIN_WIDTH / 2 + 'px';
     newElement.style.top = users[j].location.y - PIN_HEIGHT + 'px';
+    newElement.setAttribute('tabindex', '0');
     newElement.innerHTML = '<img src="' + users[j].author.avatar + '" class="rounded" width="' + PIN_WIDTH + '" height="' + PIN_HEIGHT + '">';
     fragmentPins.appendChild(newElement);
   }
@@ -149,37 +150,39 @@ var template = getElement('#lodge-template').content.querySelector('.dialog__pan
 var element = template.cloneNode(true);
 newPanel.appendChild(renderDialogPanel(element));
 
-var pinElements = getElement('.pin');
+var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
 var pinClose = getElement('.dialog__close');
 
-var pinCloseKeydownHandler = function(evt) {
+var pinCloseKeydownHandler = function (evt) {
   if (evt.keyCode === 27) {
     pinElements.classList.remove('pin--active');
   }
 };
 
-var pinOpenKeydownHandler = function(evt) {
+var pinOpenKeydownHandler = function (evt) {
   if (evt.keyCode === 13) {
     pinElements.classList.add('pin--active');
   }
 };
 
-var pinCloseClickHandler = function() {
+var pinCloseClickHandler = function () {
   pinElements.classList.remove('pin--active');
 };
-var pinOpenClickHandler = function() {
+var pinOpenClickHandler = function () {
   if (pinElements) {
     pinElements.classList.remove('pin--active');
   }
   document.addEventListener('keydown', pinCloseKeydownHandler);
 
-    pinElements.classList.add('pin--active');
+  pinElements.classList.add('pin--active');
 };
 
-
+for (var h = 0; h < pinElements.length; h++) {
+  pinElements[h].addEventListener('click', pinOpenClickHandler, true);
+}
 
 pinOpen.addEventListener('click', pinOpenClickHandler);
 pinClose.addEventListener('click', pinCloseClickHandler);
-setupOpen.addEventListener('keydown', pinOpenKeydownHandler);
+pinOpen.addEventListener('keydown', pinOpenKeydownHandler);
 

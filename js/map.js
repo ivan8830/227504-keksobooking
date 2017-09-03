@@ -160,25 +160,19 @@ var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
 var pinClose = getElement('.dialog__close');
 
-var onPopupEscPress = function(evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    closePopup();
-  }
-};
-
-var openPopup = function() {
+var openPopup = function () {
   pinElements.classList.add('pin--active');
   pinOpen.classList.remove('hidden');
 
 };
 
-var closePopup = function() {
+var closePopup = function () {
   pinElements.classList.remove('pin--active');
   pinOpen.classList.add('hidden');
 };
 
 var pinOpenClickHandler = function (evt) {
-  if (pinElements.className == 'pin--active') {
+  if (pinElements.className === 'pin--active') {
     closePopup();
   }
   document.addEventListener('keydown', pinCloseEscHandler);
@@ -188,7 +182,7 @@ var pinOpenClickHandler = function (evt) {
 };
 
 var pinCloseEscHandler = function (evt) {
-  if (evt.keyCode === 27) {
+  if (evt.keyCode === ESC_KEYCODE) {
     closePopup();
   }
 };
@@ -198,14 +192,14 @@ var pinCloseClickHandler = function () {
 };
 
 var pinCloseKeydownHandler = function (evt) {
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     closePopup();
   }
 };
 
 var pinOpenKeydownHandler = function (evt) {
   pinElements.focus();
-  if (evt.keyCode === 13) {
+  if (evt.keyCode === ENTER_KEYCODE) {
     openPopup();
   }
 };

@@ -48,7 +48,7 @@ function renderPins() {
     newElement.style.left = users[j].location.x - PIN_WIDTH / 2 + 'px';
     newElement.style.top = users[j].location.y - PIN_HEIGHT + 'px';
     newElement.setAttribute('data-user', j);
-    newElement.innerHTML = '<img src="' + users[j].author.avatar + '" class="rounded" width="' + PIN_WIDTH + '" height="' + PIN_HEIGHT + '" + tabindex="' + ALLOCATION + '">';
+    newElement.innerHTML = '<img src="' + users[j].author.avatar + '" class="rounded" width="' + PIN_WIDTH + '" height="' + PIN_HEIGHT + '" tabindex="' + ALLOCATION + '">';
     fragmentPins.appendChild(newElement);
   }
   return fragmentPins;
@@ -65,19 +65,23 @@ function renderFeatures(l) {
 }
 
 function renderDialogPanel(j) {
-  var userTitle = getElement('.lodge__title');
+  var element = template.cloneNode(true);
+  function getElementClone(k) {
+    return element.querySelector(k);
+  }
+  var userTitle = getElementClone('.lodge__title');
   var newTitle = users[j].offer.title;
   userTitle.textContent = newTitle;
 
-  var userAddress = getElement('.lodge__address');
+  var userAddress = getElementClone('.lodge__address');
   var newAddress = users[j].offer.address;
   userAddress.textContent = newAddress;
 
-  var userPrice = getElement('.lodge__price');
+  var userPrice = getElementClone('.lodge__price');
   var newPrice = users[j].offer.price + '&#x20bd;' + '/ночь';
   userPrice.textContent = newPrice;
 
-  var userType = getElement('.lodge__type');
+  var userType = getElementClone('.lodge__type');
   var newType;
   if (users[j].offer.type === 'flat') {
     newType = 'Квартира';
@@ -88,26 +92,30 @@ function renderDialogPanel(j) {
   }
   userType.textContent = newType;
 
-  var userRoomsGuests = getElement('.lodge__rooms-and-guests');
+  var userRoomsGuests = getElementClone('.lodge__rooms-and-guests');
   var newRoomsGuests = 'Для ' + users[j].offer.guests + ' гостей в ' + users[j].offer.rooms + ' комнатах';
   userRoomsGuests.textContent = newRoomsGuests;
 
-  var userCheckInOut = getElement('.lodge__checkin-time');
+  var userCheckInOut = getElementClone('.lodge__checkin-time');
   var newCheckInOut = 'Заезд после ' + users[j].offer.checkin + ', выезд до ' + users[j].offer.checkout;
   userCheckInOut.textContent = newCheckInOut;
 
-  var userFeatures = getElement('.lodge__features');
+  var userFeatures = getElementClone('.lodge__features');
   var newFeatures = users[j].offer.features;
   userFeatures.appendChild(renderFeatures(newFeatures));
 
-  var userDescription = getElement('.lodge__description');
+  var userDescription = getElementClone('.lodge__description');
   var newDescription = users[j].offer.description;
   userDescription.textContent = newDescription;
 
+  getAvatar(j);
+
+  return element;
+}
+
+function getAvatar(j) {
   var userAvatar = getElement('.dialog__title > img');
   userAvatar.setAttribute('src', users[j].author.avatar);
-
-
 }
 
 var users = [];
@@ -152,9 +160,9 @@ tokyo.appendChild(renderPins());
 
 var newPanel = getElement('.dialog__panel');
 var template = getElement('#lodge-template').content.querySelector('.dialog__panel');
-var element = template.cloneNode(true);
+
 var number = getRandomNumber(0, 7);
-newPanel.appendChild(element, renderDialogPanel(number));
+newPanel.appendChild(renderDialogPanel(number));
 
 var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
@@ -172,13 +180,13 @@ var closePopup = function () {
 };
 
 var pinOpenClickHandler = function (evt) {
-  if (pinElements.className === 'pin--active') {
+  if (pinElements.contains('pin--active')) {
     closePopup();
   }
   document.addEventListener('keydown', pinCloseEscHandler);
-  pinElements = evt.currentTarget;
+  var currentPin = evt.currentTarget;
   openPopup();
-  newPanel.replaceChild(renderDialogPanel(number), renderDialogPanel(pinElements.dataset.user));
+  newPanel.replaceChild(renderDialogPanel(currentPin.dataset.user), newPanel);
 };
 
 var pinCloseEscHandler = function (evt) {
@@ -198,7 +206,6 @@ var pinCloseKeydownHandler = function (evt) {
 };
 
 var pinOpenKeydownHandler = function (evt) {
-  pinElements.focus();
   if (evt.keyCode === ENTER_KEYCODE) {
     openPopup();
   }
@@ -206,8 +213,9 @@ var pinOpenKeydownHandler = function (evt) {
 
 for (var h = 0; h < pinElements.length; h++) {
   pinElements[h].addEventListener('click', pinOpenClickHandler);
+  pinElements[h].addEventListener('keydown', pinOpenKeydownHandler);
 }
 
 pinClose.addEventListener('click', pinCloseClickHandler);
 pinClose.addEventListener('keydown', pinCloseKeydownHandler);
-pinOpen.addEventListener('keydown', pinOpenKeydownHandler, true);
+

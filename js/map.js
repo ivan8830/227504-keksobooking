@@ -108,14 +108,11 @@ function renderDialogPanel(j) {
   var newDescription = users[j].offer.description;
   userDescription.textContent = newDescription;
 
-  getAvatar(j);
-
   return element;
 }
 
 function getAvatar(j) {
-  var userAvatar = getElement('.dialog__title > img');
-  userAvatar.setAttribute('src', users[j].author.avatar);
+  return users[j].author.avatar;
 }
 
 var users = [];
@@ -163,6 +160,10 @@ var template = getElement('#lodge-template').content.querySelector('.dialog__pan
 
 var number = getRandomNumber(0, 7);
 newPanel.appendChild(renderDialogPanel(number));
+var userAvatar = getElement('.dialog__title > img');
+var newAvatar = getAvatar(number);
+userAvatar.setAttribute('src', newAvatar);
+
 
 var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
@@ -187,6 +188,7 @@ var pinOpenClickHandler = function (evt) {
   var currentPin = evt.currentTarget;
   openPopup();
   newPanel.replaceChild(renderDialogPanel(currentPin.dataset.user), newPanel);
+  newAvatar = getAvatar(currentPin.dataset.user);
 };
 
 var pinCloseEscHandler = function (evt) {

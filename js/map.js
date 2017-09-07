@@ -172,7 +172,7 @@ offerDialog.appendChild(renderDialogPanel(number));
 var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
 var pinClose = getElement('.dialog__close');
-var currentPin;
+var currentPin = renderDialogPanel(number);
 
 var openPopup = function () {
   currentPin.classList.add('pin--active');
@@ -181,11 +181,13 @@ var openPopup = function () {
 };
 
 var closePopup = function () {
+  debugger;
   currentPin.classList.remove('pin--active');
   pinOpen.classList.add('hidden');
 };
 
 var pinOpenClickHandler = function (evt) {
+
   if (currentPin) {
     closePopup();
   }

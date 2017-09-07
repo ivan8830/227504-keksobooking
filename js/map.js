@@ -159,7 +159,7 @@ var newPanel = getElement('.dialog__panel');
 var template = getElement('#lodge-template').content.querySelector('.dialog__panel');
 var offerDialog = getElement('#offer-dialog');
 var number = getRandomNumber(0, 7);
-offerDialog.appendChild(renderDialogPanel(number));
+offerDialog.replaceChild(renderDialogPanel(number), newPanel);
 var userAvatar = getElement('.dialog__title > img');
 var newAvatar = getAvatar(number);
 userAvatar.setAttribute('src', newAvatar);
@@ -189,7 +189,8 @@ var pinOpenClickHandler = function (evt) {
   document.addEventListener('keydown', pinCloseEscHandler);
   currentPin = evt.currentTarget;
   openPopup();
-  offerDialog.replaceChild(renderDialogPanel(currentPin.dataset.user),  newPanel);
+  var oldPanel = getElement('.dialog__panel');
+  offerDialog.replaceChild(renderDialogPanel(currentPin.dataset.user), oldPanel);
   newAvatar = getAvatar(currentPin.dataset.user);
 };
 

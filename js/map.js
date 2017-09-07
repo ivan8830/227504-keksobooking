@@ -175,13 +175,15 @@ var pinClose = getElement('.dialog__close');
 var currentPin = renderDialogPanel(number);
 
 var openPopup = function () {
+
   currentPin.classList.add('pin--active');
   pinOpen.classList.remove('hidden');
+  var oldPanel = getElement('.dialog__panel');
+  offerDialog.replaceChild(renderDialogPanel(currentPin.dataset.user), oldPanel);
 
 };
 
 var closePopup = function () {
-  debugger;
   currentPin.classList.remove('pin--active');
   pinOpen.classList.add('hidden');
 };
@@ -194,8 +196,6 @@ var pinOpenClickHandler = function (evt) {
   document.addEventListener('keydown', pinCloseEscHandler);
   currentPin = evt.currentTarget;
   openPopup();
-  var oldPanel = getElement('.dialog__panel');
-  offerDialog.replaceChild(renderDialogPanel(currentPin.dataset.user), oldPanel);
 
 };
 
@@ -216,7 +216,13 @@ var pinCloseKeydownHandler = function (evt) {
 };
 
 var pinOpenKeydownHandler = function (evt) {
+
   if (evt.keyCode === ENTER_KEYCODE) {
+    if (currentPin) {
+      closePopup();
+    }
+
+    currentPin = evt.currentTarget;
     openPopup();
   }
 };
@@ -225,7 +231,7 @@ for (var h = 0; h < pinElements.length; h++) {
   pinElements[h].addEventListener('click', pinOpenClickHandler);
   pinElements[h].addEventListener('keydown', pinOpenKeydownHandler);
 }
-
+document.addEventListener('keydown', pinCloseEscHandler);
 pinClose.addEventListener('click', pinCloseClickHandler);
 pinClose.addEventListener('keydown', pinCloseKeydownHandler);
 

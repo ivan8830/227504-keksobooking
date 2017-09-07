@@ -157,40 +157,40 @@ tokyo.appendChild(renderPins());
 
 var newPanel = getElement('.dialog__panel');
 var template = getElement('#lodge-template').content.querySelector('.dialog__panel');
-
+var offerDialog = getElement('#offer-dialog');
 var number = getRandomNumber(0, 7);
-debugger;
-newPanel.appendChild(renderDialogPanel(number));
+offerDialog.appendChild(renderDialogPanel(number));
 var userAvatar = getElement('.dialog__title > img');
 var newAvatar = getAvatar(number);
 userAvatar.setAttribute('src', newAvatar);
 
 
+
 var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
 var pinClose = getElement('.dialog__close');
-var currentTarget;
+var currentPin;
 
 var openPopup = function () {
-  currentTarget.classList.add('pin--active');
+  currentPin.classList.add('pin--active');
   pinOpen.classList.remove('hidden');
 
 };
 
 var closePopup = function () {
-  currentTarget.classList.remove('pin--active');
+  currentPin.classList.remove('pin--active');
   pinOpen.classList.add('hidden');
 };
 
 var pinOpenClickHandler = function (evt) {
-  if (currentTarget) {
+  if (currentPin) {
     closePopup();
   }
   document.addEventListener('keydown', pinCloseEscHandler);
-  currentTarget = evt.currentTarget;
+  currentPin = evt.currentTarget;
   openPopup();
-  newPanel.replaceChild(renderDialogPanel(currentTarget.dataset.user), newPanel);
-  newAvatar = getAvatar(currentTarget.dataset.user);
+  offerDialog.replaceChild(renderDialogPanel(currentPin.dataset.user),  newPanel);
+  newAvatar = getAvatar(currentPin.dataset.user);
 };
 
 var pinCloseEscHandler = function (evt) {

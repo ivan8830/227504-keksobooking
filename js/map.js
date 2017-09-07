@@ -159,6 +159,7 @@ var newPanel = getElement('.dialog__panel');
 var template = getElement('#lodge-template').content.querySelector('.dialog__panel');
 
 var number = getRandomNumber(0, 7);
+debugger;
 newPanel.appendChild(renderDialogPanel(number));
 var userAvatar = getElement('.dialog__title > img');
 var newAvatar = getAvatar(number);
@@ -168,27 +169,28 @@ userAvatar.setAttribute('src', newAvatar);
 var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
 var pinClose = getElement('.dialog__close');
+var currentTarget;
 
 var openPopup = function () {
-  pinElements.classList.add('pin--active');
+  currentTarget.classList.add('pin--active');
   pinOpen.classList.remove('hidden');
 
 };
 
 var closePopup = function () {
-  pinElements.classList.remove('pin--active');
+  currentTarget.classList.remove('pin--active');
   pinOpen.classList.add('hidden');
 };
 
 var pinOpenClickHandler = function (evt) {
-  if (pinElements.contains('pin--active')) {
+  if (currentTarget) {
     closePopup();
   }
   document.addEventListener('keydown', pinCloseEscHandler);
-  var currentPin = evt.currentTarget;
+  currentTarget = evt.currentTarget;
   openPopup();
-  newPanel.replaceChild(renderDialogPanel(currentPin.dataset.user), newPanel);
-  newAvatar = getAvatar(currentPin.dataset.user);
+  newPanel.replaceChild(renderDialogPanel(currentTarget.dataset.user), newPanel);
+  newAvatar = getAvatar(currentTarget.dataset.user);
 };
 
 var pinCloseEscHandler = function (evt) {

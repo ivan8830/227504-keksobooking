@@ -166,9 +166,6 @@ var number = getRandomNumber(0, 7);
 offerDialog.removeChild(newPanel);
 offerDialog.appendChild(renderDialogPanel(number));
 
-
-
-
 var pinElements = document.querySelectorAll('.pin');
 var pinOpen = getElement('.dialog');
 var pinClose = getElement('.dialog__close');

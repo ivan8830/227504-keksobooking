@@ -232,3 +232,44 @@ document.addEventListener('keydown', pinCloseEscHandler);
 pinClose.addEventListener('click', pinCloseClickHandler);
 pinClose.addEventListener('keydown', pinCloseKeydownHandler);
 
+var timeIn = getElement('.timein');
+var timeOut = getElement('.timeOut');
+if (timeIn === 'После 12') {
+  timeOut = 'Выезд до 12';
+} else if (timeIn === 'После 13') {
+  timeOut = 'Выезд до 13';
+} else {
+  timeOut = 'Выезд до 14';
+}
+
+var typeHouse = getElement('#type');
+var priceHouse = getElement('#price');
+
+var typePriceHouse = function () {
+
+  if (typeHouse.value === 'bungalo') {
+    priceHouse.setAttribute('value', 0);
+  } else if (typeHouse.value === 'flat') {
+    priceHouse.setAttribute('value', 1000);
+  } else if (typeHouse.value === 'house') {
+    priceHouse.setAttribute('value', 5000);
+  } else {
+    priceHouse.setAttribute('value', 10000);
+  }
+  return priceHouse;
+};
+
+typeHouse.addEventListener('input', typePriceHouse);
+
+
+var rooms = getElement('#room_number');
+var guests = getElement('#capacity');
+if (rooms === '1 комната') {
+  guests = 'для 1 гостя';
+} else if (rooms === '2 комната') {
+  guests = 'для 2 гостeй';
+} else if (rooms === '3 комната') {
+  guests = 'для 3 гостя';
+} else {
+  guests = 'не для гостей';
+}

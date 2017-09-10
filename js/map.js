@@ -232,21 +232,40 @@ document.addEventListener('keydown', pinCloseEscHandler);
 pinClose.addEventListener('click', pinCloseClickHandler);
 pinClose.addEventListener('keydown', pinCloseKeydownHandler);
 
-var timeIn = getElement('.timein');
-var timeOut = getElement('.timeOut');
-if (timeIn === 'После 12') {
-  timeOut = 'Выезд до 12';
-} else if (timeIn === 'После 13') {
-  timeOut = 'Выезд до 13';
-} else {
-  timeOut = 'Выезд до 14';
-}
+var timeIn = getElement('#timein');
+var timeOut = getElement('#timeout');
+
+
+
+var tymeInOut = function () {
+  if (timeIn.value === '12:00') {
+    timeOut.value = '12:00';
+  } else if (timeIn.value === '13:00') {
+    timeOut.value = '13:00';
+  } else {
+    timeOut.value = '14:00';
+  }
+  return timeOut;
+};
+
+var timeOutIn = function () {
+  if (timeOut.value === '12:00') {
+    timeIn.value = '12:00';
+  } else if (timeOut.value === '13:00') {
+    timeIn.value = '13:00';
+  } else {
+    timeIn.value = '14:00';
+  }
+  return timeIn;
+};
+
+timeIn.addEventListener('input', tymeInOut);
+timeOut.addEventListener('input', timeOutIn);
 
 var typeHouse = getElement('#type');
 var priceHouse = getElement('#price');
 
 var typePriceHouse = function () {
-
   if (typeHouse.value === 'bungalo') {
     priceHouse.setAttribute('value', 0);
   } else if (typeHouse.value === 'flat') {
@@ -259,17 +278,78 @@ var typePriceHouse = function () {
   return priceHouse;
 };
 
-typeHouse.addEventListener('input', typePriceHouse);
+var priceError = function (evt) {
+  if (!priceHouse.validity.valid) {
+    if (priceHouse.validity.valueMissing) {
+      priceHouse.setCustomValidity('Обязательное поле');
+    }
+  } else {
+    priceHouse.setCustomValidity('');
+  }
+};
 
+typeHouse.addEventListener('input', typePriceHouse);
+priceHouse.addEventListener('input', priceError);
 
 var rooms = getElement('#room_number');
 var guests = getElement('#capacity');
-if (rooms === '1 комната') {
-  guests = 'для 1 гостя';
-} else if (rooms === '2 комната') {
-  guests = 'для 2 гостeй';
-} else if (rooms === '3 комната') {
-  guests = 'для 3 гостя';
-} else {
-  guests = 'не для гостей';
-}
+
+var roomsGuests = function () {
+  if (rooms.value === '1') {
+    guests.value = '1';
+  } else if (rooms.value === '2') {
+    guests.value = '2';
+  } else if (rooms.value === '3') {
+    guests.value = '3';
+  } else {
+    guests.value = '0';
+  }
+  return guests;
+};
+
+var guestsRooms = function () {
+  if (guests.value === '1') {
+    rooms.value = '1';
+  } else if (guests.value === '2') {
+    rooms.value = '2';
+  } else if (guests.value === '3') {
+    rooms.value = '3';
+  } else {
+    rooms.value = '100';
+  }
+  return rooms;
+};
+
+rooms.addEventListener('input', roomsGuests);
+guests.addEventListener('input', guestsRooms);
+
+var addressInput = getElement('#address');
+var addressError = function (evt) {
+  if (!addressInput.validity.valid) {
+    if (addressInput.validity.valueMissing) {
+      addressInput.setCustomValidity('Обязательное поле');
+    }
+  } else {
+    addressInput.setCustomValidity('');
+  }
+};
+
+addressInput.addEventListener('invalid', addressError);
+
+var titleUser = getElement('#title');
+var titleError = function (evt) {
+  debugger;
+  if (!titleUser.validity.valid) {
+    if (titleUser.validity.tooShort) {
+      titleUser.setCustomValidity('Должно быть не менее 20 символов');
+    } else if (titleUser.validity.tooLong) {
+      titleUser.setCustomValidity('Должно быть не более 100 символов');
+    } else if (titleUser.validity.valueMissing) {
+      titleUser.setCustomValidity('Обязательное поле');
+    }
+  } else {
+    titleUser.setCustomValidity('');
+  }
+};
+
+titleUser.addEventListener('invalid', titleError);

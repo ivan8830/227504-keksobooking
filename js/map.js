@@ -235,8 +235,6 @@ pinClose.addEventListener('keydown', pinCloseKeydownHandler);
 var timeIn = getElement('#timein');
 var timeOut = getElement('#timeout');
 
-
-
 var tymeInOut = function () {
   if (timeIn.value === '12:00') {
     timeOut.value = '12:00';
@@ -338,7 +336,6 @@ addressInput.addEventListener('invalid', addressError);
 
 var titleUser = getElement('#title');
 var titleError = function (evt) {
-  debugger;
   if (!titleUser.validity.valid) {
     if (titleUser.validity.tooShort) {
       titleUser.setCustomValidity('Должно быть не менее 20 символов');

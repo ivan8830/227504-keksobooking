@@ -265,26 +265,35 @@ var priceHouse = getElement('#price');
 
 var typePriceHouse = function () {
   if (typeHouse.value === 'bungalo') {
-    priceHouse.setAttribute('value', 0);
+    priceHouse.setAttribute('min', '0');
   } else if (typeHouse.value === 'flat') {
-    priceHouse.setAttribute('value', 1000);
+    priceHouse.setAttribute('min', '1000');
   } else if (typeHouse.value === 'house') {
-    priceHouse.setAttribute('value', 5000);
+    priceHouse.setAttribute('min', '5000');
   } else {
-    priceHouse.setAttribute('value', 10000);
+    priceHouse.setAttribute('min', '10000');
   }
   return priceHouse;
 };
 
+var setErrorColorFormInput = function (formInput) {
+  formInput.setAttribute('style', 'border: 2px solid red;');
+};
+
 var priceError = function () {
+
   if (!priceHouse.validity.valid) {
+    if (priceHouse.value < priceHouse.min) {
+      priceHouse.setCustomValidity('Цена не может быть ниже ' + priceHouse.min);
+    }
     if (priceHouse.validity.valueMissing) {
       priceHouse.setCustomValidity('Обязательное поле');
+
     }
+    setErrorColorFormInput(priceHouse);
   } else {
     priceHouse.setCustomValidity('');
   }
-  return priceHouse;
 };
 
 typeHouse.addEventListener('input', typePriceHouse);
@@ -324,39 +333,38 @@ guests.addEventListener('input', guestsRooms);
 
 var addressInput = getElement('#address');
 var addressError = function () {
-
-  if (addressInput.validity.valid) {
-    if (addressInput.validity.valueMissing) {
-      addressInput.setCustomValidity('Обязательное поле');
-    }
+  if (addressInput.validity.valueMissing) {
+    addressInput.setCustomValidity('Обязательное поле');
+    setErrorColorFormInput(addressInput);
   } else {
     addressInput.setCustomValidity('');
   }
-  return addressInput;
 };
 
 addressInput.addEventListener('invalid', addressError);
 
 var titleUser = getElement('#title');
 var titleError = function () {
-  if (titleUser.validity.valid) {
+
+  if (!titleUser.validity.valid) {
     if (titleUser.validity.tooShort) {
-      titleUser.setCustomValidity('Должно быть не менее 20 символов');
+      titleUser.setCustomValidity('Должно быть не менее 30 символов');
     } else if (titleUser.validity.tooLong) {
       titleUser.setCustomValidity('Должно быть не более 100 символов');
     } else if (titleUser.validity.valueMissing) {
       titleUser.setCustomValidity('Обязательное поле');
+
     }
+    setErrorColorFormInput(titleUser);
   } else {
     titleUser.setCustomValidity('');
   }
-  return titleUser;
 };
 
 titleUser.addEventListener('input', function (evt) {
   var target = evt.target;
-  if (target.value.length < 20) {
-    target.setCustomValidity('Должно быть не менее 20 символов');
+  if (target.value.length < 5) {
+    target.setCustomValidity('Должно быть не менее 30 символов');
   } else if (target.value.length > 100) {
     target.setCustomValidity('Должно быть не более 100 символов');
   } else {

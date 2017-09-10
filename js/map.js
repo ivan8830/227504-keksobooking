@@ -276,7 +276,7 @@ var typePriceHouse = function () {
   return priceHouse;
 };
 
-var priceError = function (evt) {
+var priceError = function () {
   if (!priceHouse.validity.valid) {
     if (priceHouse.validity.valueMissing) {
       priceHouse.setCustomValidity('Обязательное поле');
@@ -284,6 +284,7 @@ var priceError = function (evt) {
   } else {
     priceHouse.setCustomValidity('');
   }
+  return priceHouse;
 };
 
 typeHouse.addEventListener('input', typePriceHouse);
@@ -322,21 +323,23 @@ rooms.addEventListener('input', roomsGuests);
 guests.addEventListener('input', guestsRooms);
 
 var addressInput = getElement('#address');
-var addressError = function (evt) {
-  if (!addressInput.validity.valid) {
+var addressError = function () {
+
+  if (addressInput.validity.valid) {
     if (addressInput.validity.valueMissing) {
       addressInput.setCustomValidity('Обязательное поле');
     }
   } else {
     addressInput.setCustomValidity('');
   }
+  return addressInput;
 };
 
 addressInput.addEventListener('invalid', addressError);
 
 var titleUser = getElement('#title');
-var titleError = function (evt) {
-  if (!titleUser.validity.valid) {
+var titleError = function () {
+  if (titleUser.validity.valid) {
     if (titleUser.validity.tooShort) {
       titleUser.setCustomValidity('Должно быть не менее 20 символов');
     } else if (titleUser.validity.tooLong) {
@@ -347,6 +350,18 @@ var titleError = function (evt) {
   } else {
     titleUser.setCustomValidity('');
   }
+  return titleUser;
 };
+
+titleUser.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 20) {
+    target.setCustomValidity('Должно быть не менее 20 символов');
+  } else if (target.value.length > 100) {
+    target.setCustomValidity('Должно быть не более 100 символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
 
 titleUser.addEventListener('invalid', titleError);

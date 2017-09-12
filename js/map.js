@@ -280,24 +280,34 @@ var setErrorColorFormInput = function (formInput) {
   formInput.setAttribute('style', 'border: 2px solid red;');
 };
 
+var setOkColorFormInput = function (formInput) {
+  formInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+};
+
 var priceError = function () {
 
-  if (!priceHouse.validity.valid) {
+  if (priceHouse.value) {
     if (priceHouse.value < priceHouse.min) {
       priceHouse.setCustomValidity('Цена не может быть ниже ' + priceHouse.min);
+      setErrorColorFormInput(priceHouse);
+    }
+    if (priceHouse.value > priceHouse.max) {
+      priceHouse.setCustomValidity('Цена не может быть выше ' + priceHouse.max);
+      setErrorColorFormInput(priceHouse);
     }
     if (priceHouse.validity.valueMissing) {
       priceHouse.setCustomValidity('Обязательное поле');
-
+      setErrorColorFormInput(priceHouse);
     }
-    setErrorColorFormInput(priceHouse);
-  } else {
     priceHouse.setCustomValidity('');
+  } else if (!priceHouse.value) {
+    priceHouse.setCustomValidity('Обязательное поле');
+    setErrorColorFormInput(priceHouse);
   }
 };
 
 typeHouse.addEventListener('input', typePriceHouse);
-priceHouse.addEventListener('input', priceError);
+priceHouse.addEventListener('invalid', priceError);
 
 var rooms = getElement('#room_number');
 var guests = getElement('#capacity');
@@ -338,6 +348,7 @@ var addressError = function () {
     setErrorColorFormInput(addressInput);
   } else {
     addressInput.setCustomValidity('');
+    setOkColorFormInput(addressInput);
   }
 };
 
@@ -353,11 +364,11 @@ var titleError = function () {
       titleUser.setCustomValidity('Должно быть не более 100 символов');
     } else if (titleUser.validity.valueMissing) {
       titleUser.setCustomValidity('Обязательное поле');
-
     }
     setErrorColorFormInput(titleUser);
   } else {
     titleUser.setCustomValidity('');
+    setOkColorFormInput(titleUser);
   }
 };
 

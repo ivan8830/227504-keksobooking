@@ -281,33 +281,35 @@ var setErrorColorFormInput = function (formInput) {
 };
 
 var setOkColorFormInput = function (formInput) {
-  formInput.setAttribute('style', 'border: 1px solid #d9d9d3;');
+  formInput.setAttribute('style', 'border: 2 px solid green;');
 };
 
-var priceError = function () {
+var onPriceInput = function () {
+  if (+priceHouse.value < +priceHouse.min) {
+    priceHouse.setCustomValidity('Цена не может быть ниже ' + priceHouse.min);
+  } else if (+priceHouse.value > +priceHouse.max) {
+    priceHouse.setCustomValidity('Цена не может быть выше ' + priceHouse.max);
+  } else {
+    setOkColorFormInput(priceHouse);
+    priceHouse.setCustomValidity('');
+  }
+};
 
-  if (priceHouse.value) {
-    if (priceHouse.value < priceHouse.min) {
-      priceHouse.setCustomValidity('Цена не может быть ниже ' + priceHouse.min);
-      setErrorColorFormInput(priceHouse);
-    }
-    if (priceHouse.value > priceHouse.max) {
-      priceHouse.setCustomValidity('Цена не может быть выше ' + priceHouse.max);
-      setErrorColorFormInput(priceHouse);
-    }
+var onPriceInvalid = function () {
+  if (!priceHouse.validity.valid) {
+    setErrorColorFormInput(priceHouse);
     if (priceHouse.validity.valueMissing) {
       priceHouse.setCustomValidity('Обязательное поле');
-      setErrorColorFormInput(priceHouse);
     }
+  } else {
     priceHouse.setCustomValidity('');
-  } else if (!priceHouse.value) {
-    priceHouse.setCustomValidity('Обязательное поле');
-    setErrorColorFormInput(priceHouse);
+    setOkColorFormInput(priceHouse);
   }
 };
 
 typeHouse.addEventListener('input', typePriceHouse);
-priceHouse.addEventListener('invalid', priceError);
+priceHouse.addEventListener('invalid', onPriceInvalid);
+priceHouse.addEventListener('input', onPriceInput);
 
 var rooms = getElement('#room_number');
 var guests = getElement('#capacity');
@@ -356,7 +358,6 @@ addressInput.addEventListener('invalid', addressError);
 
 var titleUser = getElement('#title');
 var titleError = function () {
-
   if (!titleUser.validity.valid) {
     if (titleUser.validity.tooShort) {
       titleUser.setCustomValidity('Должно быть не менее 30 символов');
@@ -367,6 +368,7 @@ var titleError = function () {
     }
     setErrorColorFormInput(titleUser);
   } else {
+
     titleUser.setCustomValidity('');
     setOkColorFormInput(titleUser);
   }
@@ -374,7 +376,7 @@ var titleError = function () {
 
 titleUser.addEventListener('input', function (evt) {
   var target = evt.target;
-  if (target.value.length < 5) {
+  if (target.value.length < 30) {
     target.setCustomValidity('Должно быть не менее 30 символов');
   } else if (target.value.length > 100) {
     target.setCustomValidity('Должно быть не более 100 символов');

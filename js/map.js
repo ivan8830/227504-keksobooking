@@ -232,3 +232,157 @@ document.addEventListener('keydown', pinCloseEscHandler);
 pinClose.addEventListener('click', pinCloseClickHandler);
 pinClose.addEventListener('keydown', pinCloseKeydownHandler);
 
+var timeIn = getElement('#timein');
+var timeOut = getElement('#timeout');
+
+var tymeInOut = function () {
+  if (timeIn.value === '12:00') {
+    timeOut.value = '12:00';
+  } else if (timeIn.value === '13:00') {
+    timeOut.value = '13:00';
+  } else {
+    timeOut.value = '14:00';
+  }
+  return timeOut;
+};
+
+var timeOutIn = function () {
+  if (timeOut.value === '12:00') {
+    timeIn.value = '12:00';
+  } else if (timeOut.value === '13:00') {
+    timeIn.value = '13:00';
+  } else {
+    timeIn.value = '14:00';
+  }
+  return timeIn;
+};
+
+timeIn.addEventListener('input', tymeInOut);
+timeOut.addEventListener('input', timeOutIn);
+
+var typeHouse = getElement('#type');
+var priceHouse = getElement('#price');
+
+var typePriceHouse = function () {
+  if (typeHouse.value === 'bungalo') {
+    priceHouse.setAttribute('min', '0');
+  } else if (typeHouse.value === 'flat') {
+    priceHouse.setAttribute('min', '1000');
+  } else if (typeHouse.value === 'house') {
+    priceHouse.setAttribute('min', '5000');
+  } else {
+    priceHouse.setAttribute('min', '10000');
+  }
+  return priceHouse;
+};
+
+var setErrorColorFormInput = function (formInput) {
+  formInput.setAttribute('style', 'border: 2px solid red;');
+};
+
+var setOkColorFormInput = function (formInput) {
+  formInput.setAttribute('style', 'border: 2 px solid green;');
+};
+
+var onPriceInput = function () {
+  if (+priceHouse.value < +priceHouse.min) {
+    priceHouse.setCustomValidity('Цена не может быть ниже ' + priceHouse.min);
+  } else if (+priceHouse.value > +priceHouse.max) {
+    priceHouse.setCustomValidity('Цена не может быть выше ' + priceHouse.max);
+  } else {
+    setOkColorFormInput(priceHouse);
+    priceHouse.setCustomValidity('');
+  }
+};
+
+var onPriceInvalid = function () {
+  if (!priceHouse.validity.valid) {
+    setErrorColorFormInput(priceHouse);
+    if (priceHouse.validity.valueMissing) {
+      priceHouse.setCustomValidity('Обязательное поле');
+    }
+  } else {
+    priceHouse.setCustomValidity('');
+    setOkColorFormInput(priceHouse);
+  }
+};
+
+typeHouse.addEventListener('input', typePriceHouse);
+priceHouse.addEventListener('invalid', onPriceInvalid);
+priceHouse.addEventListener('input', onPriceInput);
+
+var rooms = getElement('#room_number');
+var guests = getElement('#capacity');
+
+var roomsGuests = function () {
+  if (rooms.value === '1') {
+    guests.value = '1';
+  } else if (rooms.value === '2') {
+    guests.value = '2';
+  } else if (rooms.value === '3') {
+    guests.value = '3';
+  } else {
+    guests.value = '0';
+  }
+  return guests;
+};
+
+var guestsRooms = function () {
+  if (guests.value === '1') {
+    rooms.value = '1';
+  } else if (guests.value === '2') {
+    rooms.value = '2';
+  } else if (guests.value === '3') {
+    rooms.value = '3';
+  } else {
+    rooms.value = '100';
+  }
+  return rooms;
+};
+
+rooms.addEventListener('input', roomsGuests);
+guests.addEventListener('input', guestsRooms);
+
+var addressInput = getElement('#address');
+var addressError = function () {
+  if (addressInput.validity.valueMissing) {
+    addressInput.setCustomValidity('Обязательное поле');
+    setErrorColorFormInput(addressInput);
+  } else {
+    addressInput.setCustomValidity('');
+    setOkColorFormInput(addressInput);
+  }
+};
+
+addressInput.addEventListener('invalid', addressError);
+
+var titleUser = getElement('#title');
+var titleError = function () {
+  if (!titleUser.validity.valid) {
+    if (titleUser.validity.tooShort) {
+      titleUser.setCustomValidity('Должно быть не менее 30 символов');
+    } else if (titleUser.validity.tooLong) {
+      titleUser.setCustomValidity('Должно быть не более 100 символов');
+    } else if (titleUser.validity.valueMissing) {
+      titleUser.setCustomValidity('Обязательное поле');
+    }
+    setErrorColorFormInput(titleUser);
+  } else {
+
+    titleUser.setCustomValidity('');
+    setOkColorFormInput(titleUser);
+  }
+};
+
+titleUser.addEventListener('input', function (evt) {
+  var target = evt.target;
+  if (target.value.length < 30) {
+    target.setCustomValidity('Должно быть не менее 30 символов');
+  } else if (target.value.length > 100) {
+    target.setCustomValidity('Должно быть не более 100 символов');
+  } else {
+    target.setCustomValidity('');
+  }
+});
+
+titleUser.addEventListener('invalid', titleError);
